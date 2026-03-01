@@ -27,7 +27,7 @@ func baseDir() string {
 	return filepath.Join(runtime, fmt.Sprintf("satchel-%d", os.Getuid()))
 }
 
-func objectsDir() string {
+func ObjectsDir() string {
 	return filepath.Join(baseDir(), "objects")
 }
 
@@ -36,7 +36,7 @@ func indexPath() string {
 }
 
 func Ensure() error {
-	return os.MkdirAll(objectsDir(), 0755)
+	return os.MkdirAll(ObjectsDir(), 0755)
 }
 
 func Load() (*Index, error) {
