@@ -45,4 +45,4 @@ jobs:
             extra-experimental-features = nix-command flakes
 
       - name: Build from flake
-        run: nix build .#spyglass
+        run: nix build .#satchel
