@@ -1,11 +1,10 @@
 package cmd
 
 import (
-	"bufio"
 	"fmt"
 	"os"
-	"strings"
 
+	"github.com/charmbracelet/huh"
 	"github.com/spf13/cobra"
 	"github.com/stikypiston/satchel/internal"
 )
@@ -17,11 +16,16 @@ var dropCmd = &cobra.Command{
 	Short: "Clear the entire satchel",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if !dropYes {
-			fmt.Print("Are you sure you want to drop all files from the satchel? [y/N] ")
-			reader := bufio.NewReader(os.Stdin)
-			answer, _ := reader.ReadString('\n')
-			answer = strings.TrimSpace(strings.ToLower(answer))
-			if answer != "y" && answer != "yes" {
+			confirm := false
+
+			ask := huh.NewConfirm().
+				Title("Drop satchel?").
+				Affirmative("Yes").
+				Negative("No").
+				Value(&confirm)
+			ask.Run()
+
+			if !confirm {
 				fmt.Println("Aborted.")
 				return nil
 			}

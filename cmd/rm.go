@@ -1,14 +1,13 @@
 package cmd
 
 import (
-	"bufio"
 	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
 	"strconv"
-	"strings"
 
+	"github.com/charmbracelet/huh"
 	"github.com/spf13/cobra"
 	"github.com/stikypiston/satchel/internal"
 )
@@ -37,11 +36,16 @@ var rmCmd = &cobra.Command{
 		}
 
 		if !rmYes {
-			fmt.Printf("Are you sure you want to delete %s (ID %d)? [y/N] ", item.Name, id)
-			reader := bufio.NewReader(os.Stdin)
-			answer, _ := reader.ReadString('\n')
-			answer = strings.TrimSpace(strings.ToLower(answer))
-			if answer != "y" && answer != "yes" {
+			confirm := false
+
+			ask := huh.NewConfirm().
+				Title("Remove item from the satchel?").
+				Affirmative("Yes").
+				Negative("No").
+				Value(&confirm)
+			ask.Run()
+
+			if !confirm {
 				fmt.Println("Aborted.")
 				return nil
 			}
