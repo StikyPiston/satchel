@@ -24,7 +24,7 @@
 
         packages.satchel = pkgs.buildGoModule {
           pname = "satchel";
-          version = "2026.03.01-a";
+          version = "2026.03.08-a";
 
           src = self;
 
